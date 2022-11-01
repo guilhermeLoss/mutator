@@ -1,0 +1,57 @@
+#!/usr/bin/python
+
+"""
+A simple script to introduce randon mutations into fasta sequence
+"""
+
+
+import random
+import sys
+
+
+#fasta should be in one line, no breaks of sequence
+
+def proportions(num, record): 
+    length = len(record) 
+    p = (int(num) *length)/100 
+    return p 
+
+
+
+
+outname = sys.argv[1].split('.')[0] + f'_mutation_rate_{sys.argv[2]}.fna'
+out = open(outname, 'w')
+with open(sys.argv[1]) as handle:  
+    for record in handle:  
+        if record.startswith('>'): 
+            head = record.strip('\n')
+        else: 
+            seq = record.strip('\n')
+            times_to_mutate =round(proportions(int(sys.argv[2]),seq))  
+            inputNumbers =range(0,len(seq)) 
+            list_of_point_mutations = random.choices(inputNumbers, k=times_to_mutate) 
+            #print("|",seq, len(seq)) 
+            #print(list_of_point_mutations) 
+            for i in list_of_point_mutations: 
+                 
+                seq = list(seq) 
+                #print(seq[i]) 
+                if seq[i].upper() == "G":  
+                     seq[i] = random.choice(['A', 'T', 'C']) 
+                     #seq = ''.join(seq)                   
+                elif seq[i].upper() == "C":  
+                     seq[i] = random.choice(['A', 'T', 'G'])  
+                     #seq = ''.join(seq) 
+                elif seq[i].upper() == "A":  
+                     seq[i] = random.choice(['C', 'T', 'G'])  
+                     #seq = ''.join(seq) 
+                elif seq[i].upper() == "T":  
+                     seq[i] = random.choice(['C', 'A', 'G']) 
+                     #seq = ''.join(seq) 
+                      
+                #degenrate bases 
+                elif seq[i].upper() in ['N', 'B', 'D', 'H', 'K', 'M', 'R', 'S', 'T', 'V', 'W', 'X', 'Y']:  
+                     seq = ''.join(seq)  
+            seq = ''.join(seq) 
+            o = f"{head}\n{seq}\n"
+            out.writelines(o)   
