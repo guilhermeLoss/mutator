@@ -27,7 +27,7 @@ with open(sys.argv[1]) as handle:
             head = record.strip('\n')
         else: 
             seq = record.strip('\n')
-            times_to_mutate =round(proportions(int(sys.argv[2]),seq))  
+            times_to_mutate =round(proportions(float(sys.argv[2]),seq))  
             inputNumbers =range(0,len(seq)) 
             list_of_point_mutations = random.choices(inputNumbers, k=times_to_mutate) 
             #print("|",seq, len(seq)) 
