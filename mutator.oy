@@ -13,7 +13,7 @@ import sys
 
 def proportions(num, record): 
     length = len(record) 
-    p = (int(num) *length)/100 
+    p = (float(num) *length)/100 
     return p 
 
 
